@@ -23,6 +23,7 @@ class InpaintingData(Dataset):
             self.image_path.extend(glob(os.path.join(args.dir_image, args.data_train, ext)))
         # self.mask_path = glob(os.path.join(args.dir_mask, args.mask_type, '*.png'))
         self.mask_path = glob(os.path.join(args.dir_mask, args.mask_type, 'mask.png'))
+        self.mask = F.to_tensor(Image.open(self.mask_path).convert('L'))
 
         # augmentation 
         self.img_trans = transforms.Compose([
@@ -59,7 +60,7 @@ class InpaintingData(Dataset):
         
         # augment
         image = F.to_tensor(image) # self.img_trans(image) * 2. - 1.
-        mask = F.to_tensor(mask) # F.to_tensor(self.mask_trans(mask))
+        mask =  self.mask # F.to_tensor(self.mask_trans(mask))
 
         return image, mask, filename
 
