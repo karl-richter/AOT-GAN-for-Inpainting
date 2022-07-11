@@ -54,11 +54,12 @@ class InpaintingData(Dataset):
             #mask = np.zeros((self.h, self.w)).astype(np.uint8)
             #mask[self.h//4:self.h//4*3, self.w//4:self.w//4*3] = 1
             #mask = Image.fromarray(mask).convert('L')
+            print(self.mask_path)
             mask = Image.open(self.mask_path).convert('L')
         
         # augment
-        image = self.img_trans(image) * 2. - 1.
-        mask = F.to_tensor(self.mask_trans(mask))
+        image = F.to_tensor(image) # self.img_trans(image) * 2. - 1.
+        mask = F.to_tensor(mask) # F.to_tensor(self.mask_trans(mask))
 
         return image, mask, filename
 
